@@ -23,7 +23,7 @@ func addBlock(d int) {
 		head.blockData = d
 		fmt.Println(head.blockData)
 		head.prevHash = sha256.Sum256([]byte(""))
-		fmt.Println(head.prevHash)
+		fmt.Println("head.prewHash:", head.prevHash)
 		return
 	}
 	currentBlock := head
@@ -33,7 +33,14 @@ func addBlock(d int) {
 	newBlock := New()
 	currentBlock.link = newBlock
 	newBlock.blockData = d
-	fmt.Println(newBlock.blockData)
+	fmt.Println("*currentBlock:", currentBlock.prevHash)
+	fmt.Println("newBlock.blockData:", newBlock.blockData)
+	arr := make([]byte, len(currentBlock.prevHash))
+	for i := 0; i < len(currentBlock.prevHash); i++ {
+		arr[i] = currentBlock.prevHash[i]
+	}
+	newBlock.prevHash = sha256.Sum256([]byte(arr))
+	fmt.Println("newBlock.prevHash:", newBlock.prevHash)
 }
 
 func main() {
