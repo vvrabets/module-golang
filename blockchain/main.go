@@ -70,6 +70,28 @@ func verifyChain() {
 	}
 }
 
+func alterNthBlock(n int, newData int) {
+	curr := head
+	if curr == nil {
+		fmt.Println("Nth block does not exist! \n")
+		return
+	}
+	for count != n {
+		if curr.link == nil && count != n {
+			fmt.Println("Nth block does not exist\n")
+		} else if count == n {
+			break
+		}
+		curr = curr.link
+		count++
+	}
+	fmt.Println("Before: ")
+	printBlock(curr)
+	curr.blockData = newData
+	fmt.Println(" \nAfter")
+	printBlock(curr)
+}
+
 func main() {
 	addBlock(20)
 	addBlock(40)
