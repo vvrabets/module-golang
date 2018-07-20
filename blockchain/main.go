@@ -22,8 +22,8 @@ func addBlock(d int) {
 		head = New()
 		head.blockData = d
 		fmt.Println(head.blockData)
-		head.prevHash = sha256.Sum256([]byte(""))
-		fmt.Println("head.prewHash:", head.prevHash)
+		head.prevHash = sha256.Sum256([]byte("zdarova"))
+		fmt.Println("head.prevHash:", head.prevHash)
 		return
 	}
 	currentBlock := head
@@ -43,9 +43,40 @@ func addBlock(d int) {
 	fmt.Println("newBlock.prevHash:", newBlock.prevHash)
 }
 
+func verifyChain() {
+	if head == nil {
+		fmt.Println("block is empty!Try again after adding some blocks  ")
+		return
+	}
+	curr := head.link
+	prev := head
+	var count int = 1
+	for curr != nil {
+		count++
+		fmt.Printf("count: %v , Data: %v , Hash: %v \n", count, curr.blockData, curr.prevHash)
+		//fmt.Println("prevHash:", cur.prevHash)
+		arr := make([]byte, len(prev.prevHash))
+		for i := 0; i < len(prev.prevHash); i++ {
+			arr[i] = prev.prevHash[i]
+		}
+		b := sha256.Sum256([]byte(arr))
+		if b == curr.prevHash {
+			fmt.Println("Verified\n")
+		} else {
+			fmt.Println("Verification failed\n")
+		}
+		prev = curr
+		curr = curr.link
+	}
+}
+
 func main() {
 	addBlock(20)
 	addBlock(40)
+	addBlock(60)
+	verifyChain()
+	//h := head.link
 	//fmt.Println(head.link.blockData)
+	//fmt.Println(h.blockData)
 	fmt.Println("vim-go")
 }
